@@ -22,39 +22,43 @@ export function PlayShell({
   footer,
 }: PlayShellProps) {
   return (
-    <div className="mx-auto flex h-full min-h-0 w-full max-w-6xl flex-col overflow-hidden px-3 py-2 sm:px-5 lg:px-8">
-      <header className="shrink-0 pb-1.5">
-        <h1 className="font-display text-lg font-semibold tracking-tight text-slate-950 sm:text-xl">
+    <div className="mx-auto flex w-full max-w-6xl flex-col px-3 py-3 pb-[max(1rem,env(safe-area-inset-bottom))] sm:px-5 lg:h-full lg:min-h-0 lg:overflow-hidden lg:px-8 lg:py-2">
+      <header className="shrink-0 pb-2 lg:pb-1.5">
+        <h1 className="font-display text-base font-semibold tracking-tight text-slate-950 sm:text-xl">
           {question}
         </h1>
-        <p className="truncate text-xs text-slate-500 sm:text-sm">{teaser}</p>
+        <p className="mt-0.5 text-xs leading-snug text-slate-500 sm:truncate sm:text-sm">
+          {teaser}
+        </p>
       </header>
 
-      <div className="shrink-0 pb-1.5">{toolbar}</div>
+      <div className="-mx-3 shrink-0 overflow-x-auto overscroll-x-contain px-3 pb-2 lg:mx-0 lg:overflow-visible lg:px-0 lg:pb-1.5">
+        {toolbar}
+      </div>
 
-      <div className="grid min-h-0 flex-1 grid-cols-2 grid-rows-[minmax(0,1fr)_minmax(0,1fr)] gap-2 overflow-hidden sm:gap-3 lg:grid-cols-3 lg:grid-rows-1">
+      <div className="flex flex-col gap-3 lg:grid lg:min-h-0 lg:flex-1 lg:grid-cols-3 lg:grid-rows-1 lg:gap-3 lg:overflow-hidden">
         <section
           aria-label="前提"
-          className="flex min-h-0 flex-col justify-evenly gap-1 overflow-hidden"
+          className="flex flex-col gap-2.5 lg:min-h-0 lg:justify-evenly lg:gap-1 lg:overflow-hidden"
         >
           {sliders}
         </section>
         <section
           aria-label="結果"
-          className="flex min-h-0 flex-col gap-1.5 overflow-hidden"
+          className="flex flex-col gap-2 lg:min-h-0 lg:gap-1.5 lg:overflow-hidden"
         >
           {results}
           {status}
         </section>
         <section
           aria-label="グラフ"
-          className="col-span-2 min-h-0 overflow-hidden lg:col-span-1"
+          className="min-h-56 lg:min-h-0 lg:overflow-hidden"
         >
           {chart}
         </section>
       </div>
 
-      <footer className="shrink-0 pt-1.5">{footer}</footer>
+      <footer className="shrink-0 pt-3 lg:pt-1.5">{footer}</footer>
     </div>
   );
 }

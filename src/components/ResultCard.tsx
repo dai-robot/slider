@@ -46,7 +46,7 @@ export function ResultCard({
       <p
         className={
           compact
-            ? `mt-0.5 font-display text-lg font-semibold tabular-nums tracking-tight sm:text-xl ${toneClass[tone]}`
+            ? `mt-0.5 font-display text-xl font-semibold tabular-nums tracking-tight lg:text-lg ${toneClass[tone]}`
             : `mt-2 font-display text-3xl font-semibold tabular-nums tracking-tight sm:text-4xl ${toneClass[tone]}`
         }
         aria-live="polite"

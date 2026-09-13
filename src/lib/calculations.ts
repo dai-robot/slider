@@ -73,7 +73,7 @@ export function calculateSimulation(
   const valuationLabel = getValuationLabel(valuationGap);
   const status = calculateMarketStatus(state, referencePER);
 
-  // 基準株価からの分解: 利益効果 + PER効果 = 名目変化
+  // 基準の日経平均からの分解: 利益効果 + PER効果 = 名目変化
   const earningsEffect =
     BASE_EPS * (state.earningsGrowth / 100) * INITIAL_PE;
   const peEffect = eps * (state.peRatio - INITIAL_PE);

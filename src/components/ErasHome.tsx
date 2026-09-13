@@ -4,7 +4,7 @@ import { getThemeMeta } from "@/lib/themes/catalog";
 
 export function ErasHome() {
   return (
-    <div className="mx-auto w-full max-w-6xl px-4 pb-20 pt-10 sm:px-6 lg:px-8">
+    <div className="mx-auto w-full max-w-6xl px-4 pb-[max(5rem,env(safe-area-inset-bottom))] pt-8 sm:px-6 sm:pt-10 lg:px-8">
       <header className="max-w-2xl">
         <p className="text-sm font-semibold tracking-[0.2em] text-teal-800 uppercase">
           Timeline
@@ -48,7 +48,7 @@ export function ErasHome() {
                     <Link
                       key={worldId}
                       href={`/worlds/${worldId}?era=${era.id}`}
-                      className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-sm text-slate-700 transition-colors hover:border-teal-700/40 hover:bg-teal-50 hover:text-teal-900"
+                      className="inline-flex min-h-10 items-center rounded-full border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700 transition-colors hover:border-teal-700/40 hover:bg-teal-50 hover:text-teal-900"
                     >
                       {theme.title}
                     </Link>

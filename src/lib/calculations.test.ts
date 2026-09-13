@@ -20,9 +20,9 @@ describe("clamp", () => {
 
 describe("calculateEPS", () => {
   it("grows EPS by earnings growth rate", () => {
-    expect(calculateEPS(10)).toBe(110);
-    expect(calculateEPS(0)).toBe(100);
-    expect(calculateEPS(-10)).toBe(90);
+    expect(calculateEPS(10)).toBe(2145);
+    expect(calculateEPS(0)).toBe(1950);
+    expect(calculateEPS(-10)).toBe(1755);
   });
 });
 
@@ -127,6 +127,16 @@ describe("calculateMarketStatus", () => {
 });
 
 describe("calculateSimulation", () => {
+  it("uses a Nikkei-scale index around 39,000 at the educational baseline", () => {
+    const baseline = calculateSimulation({
+      inflationRate: 2,
+      interestRate: 3,
+      earningsGrowth: 0,
+      peRatio: 20,
+    });
+    expect(baseline.nominalStockPrice).toBe(39000);
+  });
+
   it("integrates the full pipeline for a growth scenario", () => {
     const result = calculateSimulation({
       inflationRate: 10,
@@ -135,9 +145,9 @@ describe("calculateSimulation", () => {
       peRatio: 20,
     });
 
-    expect(result.eps).toBe(110);
-    expect(result.nominalStockPrice).toBe(2200);
-    expect(result.realStockPrice).toBe(2000);
+    expect(result.eps).toBe(2145);
+    expect(result.nominalStockPrice).toBe(42900);
+    expect(result.realStockPrice).toBe(39000);
     expect(result.referencePER).toBe(15);
     expect(result.valuationGap).toBe(5);
     expect(result.explanation.length).toBeGreaterThan(20);

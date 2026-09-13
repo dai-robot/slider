@@ -4,12 +4,12 @@ import { THEME_METAS, getThemeMeta } from "@/lib/themes/catalog";
 
 export function WorldHome() {
   return (
-    <div className="mx-auto w-full max-w-6xl px-4 pb-20 pt-10 sm:px-6 lg:px-8">
+    <div className="mx-auto w-full max-w-6xl px-4 pb-[max(5rem,env(safe-area-inset-bottom))] pt-8 sm:px-6 sm:pt-10 lg:px-8">
       <header className="max-w-2xl">
         <p className="text-sm font-semibold tracking-[0.2em] text-teal-800 uppercase">
           Slider
         </p>
-        <h1 className="mt-3 font-display text-4xl font-semibold tracking-tight text-slate-950 sm:text-6xl">
+        <h1 className="mt-3 font-display text-[2.25rem] font-semibold tracking-tight text-slate-950 sm:text-6xl">
           スライダー
         </h1>
         <p className="mt-4 font-display text-xl text-slate-700 sm:text-2xl">
@@ -53,7 +53,7 @@ export function WorldHome() {
               動かす世界
             </h2>
             <p className="mt-1 text-sm text-slate-500">
-              気になる問いを選ぶ。スライダーを動かした瞬間に、右側が変わる。
+              気になる問いを選ぶ。スライダーを動かした瞬間に、結果が変わる。
             </p>
           </div>
         </div>
@@ -63,7 +63,7 @@ export function WorldHome() {
             <Link
               key={theme.id}
               href={`/worlds/${theme.id}`}
-              className="group rounded-3xl border border-slate-200/80 bg-white p-6 shadow-sm shadow-slate-200/40 transition-all hover:-translate-y-0.5 hover:border-teal-700/25 hover:shadow-md"
+              className="group rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm shadow-slate-200/40 transition-all hover:-translate-y-0.5 hover:border-teal-700/25 hover:shadow-md sm:rounded-3xl sm:p-6"
             >
               <div className="flex items-center justify-between gap-3">
                 <p className="text-xs font-semibold tracking-[0.18em] text-teal-800 uppercase">
@@ -101,7 +101,7 @@ export function WorldHome() {
           </div>
           <Link
             href="/eras"
-            className="text-sm font-medium text-teal-800 hover:text-teal-950"
+            className="inline-flex min-h-11 shrink-0 items-center text-sm font-medium text-teal-800 hover:text-teal-950"
           >
             すべての時代 →
           </Link>
@@ -127,7 +127,7 @@ export function WorldHome() {
                     <Link
                       key={worldId}
                       href={`/worlds/${worldId}?era=${era.id}`}
-                      className="rounded-full bg-slate-100 px-2.5 py-1 text-xs text-slate-700 hover:bg-teal-50 hover:text-teal-900"
+                      className="inline-flex min-h-9 items-center rounded-full bg-slate-100 px-3 py-1.5 text-xs text-slate-700 hover:bg-teal-50 hover:text-teal-900"
                     >
                       {theme.title}
                     </Link>

@@ -28,7 +28,7 @@ export function eraKeyMetric(
         peRatio: values.peRatio,
       });
       return {
-        label: "名目株価",
+        label: "日経平均",
         value: result.nominalStockPrice,
         display: formatNumber(Math.round(result.nominalStockPrice)),
       };

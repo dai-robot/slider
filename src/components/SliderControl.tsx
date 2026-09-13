@@ -25,7 +25,7 @@ export function SliderControl({
     <div
       className={
         compact
-          ? "min-h-0 rounded-xl border border-slate-200/80 bg-white px-2.5 py-1.5 shadow-sm shadow-slate-200/30"
+          ? "min-h-0 rounded-xl border border-slate-200/80 bg-white px-3 py-2.5 shadow-sm shadow-slate-200/30 lg:px-2.5 lg:py-1.5"
           : "rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm shadow-slate-200/40"
       }
     >
@@ -49,7 +49,7 @@ export function SliderControl({
         <span
           className={
             compact
-              ? "font-display text-lg font-semibold tabular-nums tracking-tight text-slate-900 sm:text-xl"
+              ? "font-display text-xl font-semibold tabular-nums tracking-tight text-slate-900 lg:text-lg"
               : "font-display text-3xl font-semibold tabular-nums tracking-tight text-slate-900 transition-colors duration-200"
           }
           aria-live="polite"
@@ -61,19 +61,17 @@ export function SliderControl({
       <div
         className={
           compact
-            ? "flex items-center gap-2 text-[10px] font-medium text-slate-400"
+            ? "flex items-center gap-2 text-[11px] font-medium text-slate-400 lg:text-[10px]"
             : "mb-2 flex items-center gap-3 text-xs font-medium text-slate-400"
         }
       >
-        <span className={compact ? "hidden sm:inline" : undefined}>
-          {config.lowLabel}
-        </span>
+        <span className="shrink-0">{config.lowLabel}</span>
         <div className="relative flex-1">
-          <div className={compact ? "h-1.5 rounded-full bg-slate-100" : "h-2 rounded-full bg-slate-100"}>
+          <div className={compact ? "h-2 rounded-full bg-slate-100 lg:h-1.5" : "h-2 rounded-full bg-slate-100"}>
             <div
               className={
                 compact
-                  ? "h-1.5 rounded-full bg-teal-600/80 transition-[width] duration-150 ease-out"
+                  ? "h-2 rounded-full bg-teal-600/80 transition-[width] duration-150 ease-out lg:h-1.5"
                   : "h-2 rounded-full bg-teal-600/80 transition-[width] duration-150 ease-out"
               }
               style={{ width: `${percent}%` }}
@@ -92,12 +90,10 @@ export function SliderControl({
             aria-valuenow={value}
             aria-valuetext={display}
             onChange={(e) => onChange(Number(e.target.value))}
-            className="absolute inset-0 top-1/2 h-10 w-full -translate-y-1/2 cursor-pointer appearance-none bg-transparent accent-teal-700"
+            className="absolute inset-0 top-1/2 h-12 w-full -translate-y-1/2 cursor-pointer appearance-none bg-transparent accent-teal-700 lg:h-10"
           />
         </div>
-        <span className={compact ? "hidden sm:inline" : undefined}>
-          {config.highLabel}
-        </span>
+        <span className="shrink-0">{config.highLabel}</span>
       </div>
 
       {compact ? null : (

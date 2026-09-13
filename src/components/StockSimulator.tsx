@@ -89,7 +89,7 @@ export function StockSimulator({ initialEraId }: { initialEraId?: string }) {
       question={stockThemeMeta.question}
       teaser={stockThemeMeta.teaser}
       toolbar={
-        <div className="flex flex-wrap items-center gap-1">
+        <div className="flex w-max flex-nowrap items-center gap-1.5 lg:w-full lg:flex-wrap lg:gap-1">
           <PresetButton
             label={RESET_PRESET.label}
             description={RESET_PRESET.description}
@@ -128,29 +128,29 @@ export function StockSimulator({ initialEraId }: { initialEraId?: string }) {
         />
       ))}
       results={
-        <div className="grid min-h-0 flex-1 grid-cols-2 gap-1.5">
+        <div className="grid min-h-0 flex-1 grid-cols-2 gap-2 lg:gap-1.5">
           <ResultCard
-            label="名目株価"
+            label="日経平均"
             value={formatNumber(Math.round(result.nominalStockPrice))}
-            hint={`EPS ${formatNumber(result.eps, 1)} × PER ${formatMultiple(state.peRatio, 0)}`}
+            hint={`EPS ${formatNumber(result.eps, 0)} × PER ${formatMultiple(state.peRatio, 0)}`}
             graphic={{
-              ratio: ratioInRange(result.nominalStockPrice, 500, 5000),
-              mark: ratioInRange(INITIAL_PRICE, 500, 5000),
+              ratio: ratioInRange(result.nominalStockPrice, 8000, 80000),
+              mark: ratioInRange(INITIAL_PRICE, 8000, 80000),
             }}
             compact
           />
           <ResultCard
-            label="実質株価"
+            label="実質・日経平均"
             value={formatNumber(Math.round(result.realStockPrice))}
-            hint="名目株価 ÷ (1 + インフレ率)"
+            hint="日経平均 ÷ (1 + インフレ率)"
             tone={
               result.realStockPrice < result.nominalStockPrice * 0.95
                 ? "warning"
                 : "default"
             }
             graphic={{
-              ratio: ratioInRange(result.realStockPrice, 400, 5000),
-              mark: ratioInRange(INITIAL_PRICE, 400, 5000),
+              ratio: ratioInRange(result.realStockPrice, 8000, 80000),
+              mark: ratioInRange(INITIAL_PRICE, 8000, 80000),
             }}
             compact
           />

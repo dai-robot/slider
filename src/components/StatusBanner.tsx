@@ -26,15 +26,15 @@ export function StatusBanner({
   if (compact) {
     return (
       <section
-        className={`rounded-lg border px-2.5 py-1 ${toneClass[tone]}`}
+        className={`rounded-lg border px-2.5 py-2 lg:py-1 ${toneClass[tone]}`}
         aria-live="polite"
       >
-        <p className="truncate text-sm font-semibold tracking-tight">
+        <p className="text-sm font-semibold tracking-tight lg:truncate">
           <span className="mr-1.5 text-[10px] font-semibold tracking-wider uppercase opacity-70">
             {kicker}
           </span>
           {title}
-          <span className="ml-1.5 font-sans text-xs font-normal opacity-80">
+          <span className="mt-0.5 block font-sans text-xs font-normal leading-snug opacity-80 lg:mt-0 lg:ml-1.5 lg:inline">
             {description}
           </span>
         </p>

@@ -65,7 +65,7 @@ export function StockPriceChart({
                   : "font-display text-lg font-semibold text-slate-900"
             }
           >
-            株価の構成
+            日経平均の構成
           </h3>
           <p
             className={
@@ -74,7 +74,7 @@ export function StockPriceChart({
                 : "mt-1 text-sm text-slate-500"
             }
           >
-            基準株価 {formatNumber(decomposition.basePrice)} からの変化
+            基準 {formatNumber(decomposition.basePrice)} からの変化
           </p>
         </div>
         <p
@@ -84,7 +84,7 @@ export function StockPriceChart({
               : "text-sm tabular-nums text-slate-600"
           }
         >
-          名目株価{" "}
+          日経平均{" "}
           <span className="font-semibold text-slate-900">
             {formatNumber(Math.round(nominalStockPrice))}
           </span>
@@ -133,7 +133,7 @@ export function StockPriceChart({
 
       {compact ? null : (
         <p className="mt-2 text-xs leading-relaxed text-slate-500">
-          利益の効果とPERの効果の合計が、基準株価からの名目変化です。インフレの影響は実質価値の目減りを示します。
+          利益の効果とPERの効果の合計が、基準の日経平均からの名目変化です。インフレの影響は実質価値の目減りを示します。
         </p>
       )}
     </div>

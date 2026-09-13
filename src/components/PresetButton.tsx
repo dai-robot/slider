@@ -23,7 +23,7 @@ export function PresetButton({
       title={description}
       className={
         compact
-          ? `rounded-full border px-2.5 py-1 text-xs font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700 ${
+          ? `min-h-10 rounded-full border px-3 py-2 text-sm font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700 lg:min-h-0 lg:px-2.5 lg:py-1 lg:text-xs ${
               active
                 ? "border-teal-700 bg-teal-700 text-white shadow-sm shadow-teal-700/20"
                 : "border-slate-200 bg-white text-slate-700 hover:border-teal-600/40 hover:bg-teal-50/60"

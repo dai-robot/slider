@@ -1,12 +1,12 @@
 import type { SimulationState, SliderConfig } from "@/types/simulation";
 
-/** 基準企業のEPS（円） */
-export const BASE_EPS = 100;
+/** 日経平均の教育用・基準EPS（円）。PER20倍で約39,000 */
+export const BASE_EPS = 1950;
 
 /** 基準PER（倍） */
 export const INITIAL_PE = 20;
 
-/** 基準株価 = BASE_EPS × INITIAL_PE */
+/** 基準の日経平均 = BASE_EPS × INITIAL_PE */
 export const INITIAL_PRICE = BASE_EPS * INITIAL_PE;
 
 /** バリュエーション差の判定閾値（教育用パラメータ） */
@@ -62,7 +62,7 @@ export const SLIDER_CONFIGS: SliderConfig[] = [
     max: 30,
     step: 1,
     unit: "%",
-    description: "企業の利益が1年間でどれくらい増減するか",
+    description: "日経平均に入っている企業の利益が、1年間でどれくらい増減するか",
     lowLabel: "減少",
     highLabel: "増加",
   },
@@ -73,7 +73,7 @@ export const SLIDER_CONFIGS: SliderConfig[] = [
     max: 40,
     step: 1,
     unit: "倍",
-    description: "投資家が企業利益の何倍まで株価を払うか",
+    description: "投資家が日経平均の利益の何倍まで払うか",
     lowLabel: "割安",
     highLabel: "割高",
   },

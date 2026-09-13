@@ -70,7 +70,7 @@ function Playground({
       question={theme.question}
       teaser={theme.teaser}
       toolbar={
-        <div className="flex flex-wrap items-center gap-1">
+        <div className="flex w-max flex-nowrap items-center gap-1.5 lg:w-full lg:flex-wrap lg:gap-1">
           {theme.presets.map((preset) => (
             <PresetButton
               key={preset.id}
@@ -100,7 +100,7 @@ function Playground({
         />
       ))}
       results={
-        <div className="grid min-h-0 flex-1 grid-cols-2 gap-1.5">
+        <div className="grid min-h-0 flex-1 grid-cols-2 gap-2 lg:gap-1.5">
           {result.cards.map((card) => (
             <ResultCard
               key={card.label}
