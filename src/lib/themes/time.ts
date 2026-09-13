@@ -2,7 +2,7 @@ import { formatNumber, formatPercent } from "@/lib/format";
 import { ratioInRange } from "@/lib/math";
 import type { PlayableTheme, SliderValues, ThemeOutput } from "@/types/theme";
 
-const PRINCIPAL = 100;
+const DEFAULT_PRINCIPAL = 100;
 
 export function calculateFutureValue(
   principal: number,
@@ -12,13 +12,19 @@ export function calculateFutureValue(
   return principal * (1 + rate / 100) ** years;
 }
 
+function yenLabel(man: number): string {
+  return `${formatNumber(man, 0)}万円`;
+}
+
 function compute(state: SliderValues): ThemeOutput {
   const years = state.years;
   const rate = state.rate;
-  const future = calculateFutureValue(PRINCIPAL, rate, years);
-  const later = calculateFutureValue(PRINCIPAL, rate, years + 10);
-  const zeroRate = PRINCIPAL;
-  const gain = future - PRINCIPAL;
+  const principal = state.principal ?? DEFAULT_PRINCIPAL;
+  const future = calculateFutureValue(principal, rate, years);
+  const later = calculateFutureValue(principal, rate, years + 10);
+  const zeroRate = principal;
+  const gain = future - principal;
+  const startLabel = yenLabel(principal);
 
   let status: ThemeOutput["status"];
   if (years >= 25 && rate >= 5) {
@@ -41,8 +47,7 @@ function compute(state: SliderValues): ThemeOutput {
     status = {
       kicker: "時間の状態",
       label: "まだ静かな複利",
-      description:
-        "年数を伸ばすか、利率を上げると、同じ100万円の未来が急に分かれます。1本でも、2本でも、変化は見えます。",
+      description: `年数を伸ばすか、利率を上げると、同じ${startLabel}の未来が急に分かれます。金額を変えると、増え方の感じも変わります。`,
       tone: "accent",
     };
   }
@@ -52,38 +57,49 @@ function compute(state: SliderValues): ThemeOutput {
       {
         label: `${years}年後`,
         value: `${formatNumber(future, 1)}万`,
-        hint: `100万円を年${formatPercent(rate, 1)}で置いたとき`,
-        graphic: { ratio: ratioInRange(future, 100, 800), mark: ratioInRange(100, 100, 800) },
+        hint: `${startLabel}を年${formatPercent(rate, 1)}で置いたとき`,
+        graphic: {
+          ratio: ratioInRange(future, principal, principal * 8),
+          mark: ratioInRange(principal, principal, principal * 8),
+        },
       },
       {
         label: "増えた分",
         value: `${formatNumber(gain, 1)}万`,
         hint: "元本を超えて増えた金額",
-        tone: gain > 50 ? "positive" : "default",
-        graphic: { ratio: ratioInRange(gain, 0, 700) },
+        tone: gain > principal * 0.5 ? "positive" : "default",
+        graphic: { ratio: ratioInRange(gain, 0, principal * 7) },
       },
       {
         label: "あと10年",
         value: `${formatNumber(later, 1)}万`,
         hint: "同じ利率で、さらに10年",
         tone: "accent",
-        graphic: { ratio: ratioInRange(later, 100, 1200), mark: ratioInRange(future, 100, 1200) },
+        graphic: {
+          ratio: ratioInRange(later, principal, principal * 12),
+          mark: ratioInRange(future, principal, principal * 12),
+        },
       },
       {
         label: "利率0%なら",
         value: `${formatNumber(zeroRate, 0)}万`,
         hint: "時間だけでは増えない",
         tone: "warning",
-        graphic: { ratio: ratioInRange(zeroRate, 0, 800), mark: ratioInRange(100, 0, 800) },
+        graphic: {
+          ratio: ratioInRange(zeroRate, 0, principal * 8),
+          mark: ratioInRange(principal, 0, principal * 8),
+        },
       },
     ],
     status,
     explanation: [
-      `100万円を年${formatPercent(rate, 1)}で${years}年置くと、約${formatNumber(future, 1)}万円になります。`,
+      `${startLabel}を年${formatPercent(rate, 1)}で${years}年置くと、約${formatNumber(future, 1)}万円になります。`,
       `同じ条件であと10年伸ばすと約${formatNumber(later, 1)}万円。後半の増え方が、前半より大きくなりやすいのが複利です。`,
-      rate < 2
-        ? "利率のスライダーを上げると、時間の意味が変わります。"
-        : "年数だけ動かしても、利率だけ動かしても、未来の形は別物になります。",
+      principal >= 1000
+        ? "元本が大きいと、同じ利率でも増える額の実感がまったく違います。"
+        : rate < 2
+          ? "利率のスライダーを上げると、時間の意味が変わります。"
+          : "年数だけ動かしても、利率だけ動かしても、未来の形は別物になります。",
     ].join(""),
     learningPoint:
       years >= 20
@@ -91,9 +107,9 @@ function compute(state: SliderValues): ThemeOutput {
         : "短い期間では、複利の差は小さく見える。",
     chart: {
       title: "元本と、時間の上乗せ",
-      caption: "最初の100万円と、複利が足した分",
+      caption: `最初の${startLabel}と、複利が足した分`,
       bars: [
-        { name: "最初の100万", value: PRINCIPAL, fill: "#0369a1" },
+        { name: `最初の${formatNumber(principal, 0)}万`, value: principal, fill: "#0369a1" },
         { name: "増えた分", value: Math.max(0, gain), fill: "#0f766e" },
       ],
     },
@@ -104,14 +120,25 @@ export const timeTheme: PlayableTheme = {
   id: "time",
   number: "05",
   title: "時間と複利",
-  question: "同じ100万円が、何年後にいくらになる？",
-  teaser: "年数だけでも見える。利率を足すと、時間の意味が変わる。",
+  question: "同じお金が、何年後にいくらになる？",
+  teaser: "100万円と1000万円では、同じ利率でも感じ方が違う。年数を足すと、さらに分かれる。",
   domain: "時間",
-  sliderCount: 2,
+  sliderCount: 3,
   interaction: "coupled",
-  interactionNote: "1本（年数）でも形は見える。利率を足すと、時間の価値が変わる。",
-  defaultValues: { years: 20, rate: 5 },
+  interactionNote: "金額が前提。年数と利率が、そのお金の未来を変える。",
+  defaultValues: { principal: DEFAULT_PRINCIPAL, years: 20, rate: 5 },
   sliders: [
+    {
+      key: "principal",
+      label: "前提の金額",
+      min: 100,
+      max: 2000,
+      step: 100,
+      unit: "万円",
+      description: "いま手元にあるお金。100万円と1000万円では、増えた分の実感が違う",
+      lowLabel: "少ない",
+      highLabel: "多い",
+    },
     {
       key: "years",
       label: "年数",
@@ -138,27 +165,33 @@ export const timeTheme: PlayableTheme = {
   presets: [
     {
       id: "default",
-      label: "20年・5%",
+      label: "100万円",
       description: "よくある長期の目安",
-      values: { years: 20, rate: 5 },
+      values: { principal: 100, years: 20, rate: 5 },
+    },
+    {
+      id: "ten-million",
+      label: "1000万円",
+      description: "同じ20年・5%でも、増え方が大きく感じる",
+      values: { principal: 1000, years: 20, rate: 5 },
     },
     {
       id: "short",
       label: "5年",
       description: "まだ複利は地味",
-      values: { years: 5, rate: 5 },
+      values: { principal: 100, years: 5, rate: 5 },
     },
     {
       id: "long",
       label: "40年",
       description: "時間を最大限使う",
-      values: { years: 40, rate: 5 },
+      values: { principal: 100, years: 40, rate: 5 },
     },
     {
       id: "zero",
       label: "利率ゼロ",
       description: "時間だけがある世界",
-      values: { years: 20, rate: 0 },
+      values: { principal: 100, years: 20, rate: 0 },
     },
   ],
   resultHint: "税金や手数料を除いた、単一利率の教育用モデルです",

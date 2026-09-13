@@ -37,18 +37,19 @@ export function useAnimatedValues(
       setActivePresetId(presetId);
 
       const from = { ...values };
+      const target = { ...from, ...next };
       const start = performance.now();
 
       const tick = (now: number) => {
         const raw = Math.min(1, (now - start) / PRESET_ANIMATION_MS);
         const t = easeOutCubic(raw);
         const interpolated: Record<string, number> = {};
-        for (const key of Object.keys(next)) {
-          interpolated[key] = lerp(from[key] ?? next[key], next[key], t);
+        for (const key of Object.keys(target)) {
+          interpolated[key] = lerp(from[key] ?? target[key], target[key], t);
         }
 
         if (raw >= 1) {
-          setValues(snapValues(next, steps));
+          setValues(snapValues(target, steps));
           animationRef.current = null;
           return;
         }

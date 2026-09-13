@@ -32,6 +32,13 @@ describe("wage", () => {
     expect(richer.status.tone).toBe("positive");
     expect(poorer.status.tone).toBe("negative");
   });
+
+  it("scales yen amounts when the starting income changes", () => {
+    const modest = wageTheme.compute({ income: 400, wageGrowth: 3, inflation: 2 });
+    const high = wageTheme.compute({ income: 1000, wageGrowth: 3, inflation: 2 });
+    expect(modest.cards[0].hint).toContain("400万円");
+    expect(high.cards[0].hint).toContain("1,000万円");
+  });
 });
 
 describe("mortgage", () => {
@@ -62,8 +69,15 @@ describe("fx", () => {
 describe("time", () => {
   it("compounds 100 at 5% for 10 years", () => {
     expect(calculateFutureValue(100, 5, 10)).toBeCloseTo(162.889, 3);
-    const zero = timeTheme.compute({ years: 20, rate: 0 });
+    const zero = timeTheme.compute({ principal: 100, years: 20, rate: 0 });
     expect(zero.cards[0].value).toContain("100");
+  });
+
+  it("makes the same rate feel different at 10 million yen", () => {
+    const small = timeTheme.compute({ principal: 100, years: 20, rate: 5 });
+    const large = timeTheme.compute({ principal: 1000, years: 20, rate: 5 });
+    expect(large.cards[1].value).not.toBe(small.cards[1].value);
+    expect(large.explanation).toContain("1,000万円");
   });
 });
 

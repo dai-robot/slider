@@ -100,7 +100,7 @@ function Playground({
         />
       ))}
       results={
-        <div className="grid grid-cols-2 gap-1.5">
+        <div className="grid min-h-0 flex-1 grid-cols-2 gap-1.5">
           {result.cards.map((card) => (
             <ResultCard
               key={card.label}

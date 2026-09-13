@@ -2,7 +2,7 @@ import { formatNumber, formatPercent, formatSigned } from "@/lib/format";
 import { ratioInRange } from "@/lib/math";
 import type { PlayableTheme, SliderValues, ThemeOutput } from "@/types/theme";
 
-const BASE_ANNUAL_INCOME = 400;
+const DEFAULT_INCOME = 400;
 
 export function calculateRealIncomeChange(
   wageGrowth: number,
@@ -14,7 +14,8 @@ export function calculateRealIncomeChange(
 function compute(state: SliderValues): ThemeOutput {
   const wageGrowth = state.wageGrowth;
   const inflation = state.inflation;
-  const nominal = (BASE_ANNUAL_INCOME * (100 + wageGrowth)) / 100;
+  const income = state.income ?? DEFAULT_INCOME;
+  const nominal = (income * (100 + wageGrowth)) / 100;
   const real = (nominal * 100) / (100 + inflation);
   const realChange = calculateRealIncomeChange(wageGrowth, inflation);
   const gap = wageGrowth - inflation;
@@ -61,15 +62,21 @@ function compute(state: SliderValues): ThemeOutput {
       {
         label: "名目年収",
         value: `${formatNumber(nominal, 1)}万`,
-        hint: `基準400万円 × (1 + 賃上げ)`,
-        graphic: { ratio: ratioInRange(nominal, 300, 550), mark: ratioInRange(400, 300, 550) },
+        hint: `基準${formatNumber(income, 0)}万円 × (1 + 賃上げ)`,
+        graphic: {
+          ratio: ratioInRange(nominal, income * 0.7, income * 1.4),
+          mark: ratioInRange(income, income * 0.7, income * 1.4),
+        },
       },
       {
         label: "実質年収",
         value: `${formatNumber(real, 1)}万`,
         hint: "名目 ÷ (1 + インフレ率)",
         tone: realChange < 0 ? "warning" : "positive",
-        graphic: { ratio: ratioInRange(real, 250, 550), mark: ratioInRange(400, 250, 550) },
+        graphic: {
+          ratio: ratioInRange(real, income * 0.6, income * 1.4),
+          mark: ratioInRange(income, income * 0.6, income * 1.4),
+        },
       },
       {
         label: "実質の変化",
@@ -108,13 +115,24 @@ export const wageTheme: PlayableTheme = {
   number: "02",
   title: "給料と物価",
   question: "給料が上がっても、豊かにならない？",
-  teaser: "賃上げとインフレを同時に動かすと、名目と実質が分かれる。",
+  teaser: "出発点の年収を変えると、同じ％でも手元の金額の感じが違う。",
   domain: "暮らし",
-  sliderCount: 2,
+  sliderCount: 3,
   interaction: "coupled",
-  interactionNote: "2本は互いに打ち消し合う。片方だけ見ると、判断を間違える。",
-  defaultValues: { wageGrowth: 3, inflation: 2 },
+  interactionNote: "年収が前提。賃上げと物価は互いに打ち消し合う。",
+  defaultValues: { income: DEFAULT_INCOME, wageGrowth: 3, inflation: 2 },
   sliders: [
+    {
+      key: "income",
+      label: "今の年収",
+      min: 100,
+      max: 2000,
+      step: 50,
+      unit: "万円",
+      description: "出発点の金額。100万円と1000万円では、同じ％でも残る実感が違う",
+      lowLabel: "少ない",
+      highLabel: "多い",
+    },
     {
       key: "wageGrowth",
       label: "賃上げ率",
@@ -143,27 +161,33 @@ export const wageTheme: PlayableTheme = {
       id: "default",
       label: "ふつうの年",
       description: "少し上がって、少し物価も上がる",
-      values: { wageGrowth: 3, inflation: 2 },
+      values: { income: 400, wageGrowth: 3, inflation: 2 },
     },
     {
       id: "stagnation",
       label: "名目だけの春",
       description: "給料3%、物価6%",
-      values: { wageGrowth: 3, inflation: 6 },
+      values: { income: 400, wageGrowth: 3, inflation: 6 },
     },
     {
       id: "real-gain",
       label: "実質で得する",
       description: "給料が物価を追い越す",
-      values: { wageGrowth: 5, inflation: 1 },
+      values: { income: 400, wageGrowth: 5, inflation: 1 },
     },
     {
       id: "shock",
       label: "物価ショック",
       description: "給料は止まり、店の値段だけ走る",
-      values: { wageGrowth: 0.5, inflation: 8 },
+      values: { income: 400, wageGrowth: 0.5, inflation: 8 },
+    },
+    {
+      id: "ten-million",
+      label: "1000万円",
+      description: "同じ％でも、金額の感じは別物",
+      values: { income: 1000, wageGrowth: 3, inflation: 2 },
     },
   ],
-  resultHint: "基準の年収を400万円として、1年後の名目と実質を比べます",
+  resultHint: "出発点の年収から、1年後の名目と実質を比べます",
   compute,
 };

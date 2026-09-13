@@ -63,9 +63,10 @@ export function eraKeyMetric(
         display: `${formatNumber(values.usdJpy, 0)}円`,
       };
     case "time": {
-      const future = calculateFutureValue(100, values.rate, values.years);
+      const principal = values.principal ?? 100;
+      const future = calculateFutureValue(principal, values.rate, values.years);
       return {
-        label: `${values.years}年後の100万`,
+        label: `${values.years}年後`,
         value: future,
         display: `${formatNumber(future, 1)}万`,
       };
@@ -129,6 +130,8 @@ const SLIDER_LABELS: Record<string, string> = {
   rate: "金利 / 年利",
   years: "年数",
   amount: "借入額",
+  principal: "前提の金額",
+  income: "今の年収",
   usdJpy: "ドル円",
   oil: "原油",
   importShare: "輸入依存",
@@ -148,6 +151,8 @@ const SLIDER_UNITS: Record<string, string> = {
   rate: "%",
   years: "年",
   amount: "万円",
+  principal: "万円",
+  income: "万円",
   usdJpy: "円",
   oil: "ドル",
   importShare: "%",

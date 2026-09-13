@@ -30,7 +30,7 @@ export function ResultCard({
     <div
       className={
         compact
-          ? "rounded-xl border border-slate-200/80 bg-white px-2.5 py-1.5 shadow-sm shadow-slate-200/30"
+          ? "flex h-full min-h-0 flex-col rounded-xl border border-slate-200/80 bg-white px-2.5 py-1.5 shadow-sm shadow-slate-200/30"
           : "rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm shadow-slate-200/40 transition-opacity duration-200"
       }
     >
@@ -53,7 +53,11 @@ export function ResultCard({
       >
         {value}
       </p>
-      {graphic ? <ResultMeter graphic={graphic} tone={tone} /> : null}
+      {graphic ? (
+        <div className={compact ? "mt-auto pt-2" : undefined}>
+          <ResultMeter graphic={graphic} tone={tone} />
+        </div>
+      ) : null}
       {hint ? (
         <p
           className={

@@ -30,7 +30,7 @@ export function ResultMeter({
 
     return (
       <div
-        className="relative mt-1.5 h-2 w-full overflow-hidden rounded-full bg-slate-100"
+        className="relative mt-1.5 h-3 w-full overflow-hidden rounded-full bg-slate-100"
         aria-hidden
       >
         <div className="absolute inset-y-0 left-1/2 w-px bg-slate-300" />
@@ -50,7 +50,7 @@ export function ResultMeter({
 
   return (
     <div
-      className="relative mt-1.5 h-2 w-full overflow-hidden rounded-full bg-slate-100"
+      className="relative mt-1.5 h-3 w-full overflow-hidden rounded-full bg-slate-100"
       aria-hidden
     >
       <div

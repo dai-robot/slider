@@ -32,9 +32,9 @@ export function PlayShell({
 
       <div className="shrink-0 pb-1.5">{toolbar}</div>
 
-      <div className="grid min-h-0 flex-1 grid-cols-2 gap-2 overflow-hidden sm:gap-3">
+      <div className="grid min-h-0 flex-1 grid-cols-2 grid-rows-[minmax(0,1fr)_minmax(0,1fr)] gap-2 overflow-hidden sm:gap-3 lg:grid-cols-3 lg:grid-rows-1">
         <section
-          aria-label="操作"
+          aria-label="前提"
           className="flex min-h-0 flex-col justify-evenly gap-1 overflow-hidden"
         >
           {sliders}
@@ -45,7 +45,12 @@ export function PlayShell({
         >
           {results}
           {status}
-          <div className="min-h-0 flex-1 overflow-hidden">{chart}</div>
+        </section>
+        <section
+          aria-label="グラフ"
+          className="col-span-2 min-h-0 overflow-hidden lg:col-span-1"
+        >
+          {chart}
         </section>
       </div>
 

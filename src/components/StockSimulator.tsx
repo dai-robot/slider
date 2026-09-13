@@ -128,7 +128,7 @@ export function StockSimulator({ initialEraId }: { initialEraId?: string }) {
         />
       ))}
       results={
-        <div className="grid grid-cols-2 gap-1.5">
+        <div className="grid min-h-0 flex-1 grid-cols-2 gap-1.5">
           <ResultCard
             label="名目株価"
             value={formatNumber(Math.round(result.nominalStockPrice))}
